@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminForm from "../dashboard/AdminForm";
 import { getAdmin } from "../../api/adminAPI";
+import SearchBar from "../../components/SearchBar";
 import { toast } from "react-toastify";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -64,21 +65,7 @@ const Dashboard = () => {
       </div>
 
       {/* Search bar */}
-      <div className="w-full flex justify-end mb-4">
-        <div className="flex flex-col items-start w-full sm:w-1/3">
-          <label htmlFor="search" className="mb-1 font-semibold text-gray-700">
-            Search:
-          </label>
-          <input
-            type="text"
-            id="search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search by name, email, phone, etc..."
-            className="w-full p-2 border border-gray-200 focus:ring-0 rounded"
-          />
-        </div>
-      </div>
+      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
       {/* AdminForm Modal */}
       {showForm && (
