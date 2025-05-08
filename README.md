@@ -53,13 +53,17 @@ This is the frontend application for the **Admin Dashboard**, built using **Reac
 ## 📸 Preview
 
 ### Register Page
-![Register](Register.png)
+![Register](https://github.com/user-attachments/assets/2aafd5d2-338c-4976-abdf-535ca00195b0)
+
 ### Login Page
-![Login](login.png)
+![login](https://github.com/user-attachments/assets/060e7403-23f6-4c05-8087-6ad7ff12349b)
+
 ### Admin Dashboard
-![Admin Dashboard](admin-dashboard.png)
+![admin-dashboard](https://github.com/user-attachments/assets/ea1134de-1c3e-4457-ac54-da54cfceba5a)
+
 ### Add Admin
-![Add Admin](add-admin.png)
+![add-admin](https://github.com/user-attachments/assets/4a4b9388-8366-4d19-8f94-1a490e1d706f)
+
 
 ---
 
