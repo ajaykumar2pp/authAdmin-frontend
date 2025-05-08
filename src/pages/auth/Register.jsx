@@ -39,7 +39,7 @@ const Register = () => {
   return (
     <div className="min-h-screen flex justify-center items-center">
       <div className="w-full max-w-[500px] py-3 px-6">
-        <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">REGISTER</h2>
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           <TextInput label="Name" name="name" icon={FaUser} formik={formik} />
 

@@ -48,7 +48,7 @@ This is the frontend application for the **Admin Dashboard**, built using **Reac
 
 ## 🔗 Links
 
-> ## Checkout the frontend link :
+> ## Checkout the frontend link : https://admin-ajay.netlify.app/register 
 
 ## 📸 Preview
 
