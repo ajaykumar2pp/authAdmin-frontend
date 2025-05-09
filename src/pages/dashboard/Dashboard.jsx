@@ -12,17 +12,21 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
   // Fetch admins with pagination and search
   const getAdmins = async () => {
+    setLoading(true);
     try {
       const res = await getAdmin(currentPage, searchTerm);
       setAdmins(res.data.admins || []);
       setTotalPages(res.data.totalPages || 1);
     } catch (err) {
       console.error("Failed to fetch admins", err);
+    }finally {
+      setLoading(false); 
     }
   };
 
@@ -75,7 +79,13 @@ const Dashboard = () => {
       )}
 
       {/* Admin Table */}
-      {admins.length === 0 ? (
+      {loading ? (
+        <div className="mt-25 flex justify-center items-center px-4 text-yellow-600">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-center">
+          Loading admins...
+        </h2>
+      </div>
+      ) : admins.length === 0 ? (
         <div className="mt-10 flex flex-col items-center justify-center text-center p-6 bg-yellow-50 rounded shadow-md">
           <h3 className="text-xl font-semibold text-yellow-600 mb-2">
             No Admins Found
