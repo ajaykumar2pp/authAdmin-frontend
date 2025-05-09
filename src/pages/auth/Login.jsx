@@ -21,7 +21,7 @@ const Login = () => {
       try {
         const response = await loginUser(values);
 
-        console.log("User Login", response.data.user);
+        // console.log("User Login", response.data.user);
         const user = response.data.user;
 
         // Save user to localStorage

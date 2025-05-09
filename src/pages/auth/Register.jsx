@@ -22,7 +22,7 @@ const Register = () => {
       try {
         const response = await registerUser(values);
         toast.success(response.data.message || "Registration successful!");
-        console.log("User Respone", response);
+        // console.log("User Respone", response);
         // Form reset karo
         resetForm();
 
