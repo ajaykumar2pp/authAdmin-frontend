@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AdminForm from "../dashboard/AdminForm";
-import { getAdmin } from "../../api/adminAPI";
+import AdminForm from "../../components/AdminForm";
+import { getAdmin, deleteAdmin } from "../../api/adminAPI";
+import DeleteConfirmDialog from "../../components/DeleteConfirmDialog";
+
 import SearchBar from "../../components/SearchBar";
 import { toast } from "react-toastify";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight, FaEdit, FaTrash } from "react-icons/fa";
 
 const Dashboard = () => {
   const [admins, setAdmins] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [editAdmin, setEditAdmin] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [deleteId, setDeleteId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -25,8 +30,8 @@ const Dashboard = () => {
       setTotalPages(res.data.totalPages || 1);
     } catch (err) {
       console.error("Failed to fetch admins", err);
-    }finally {
-      setLoading(false); 
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -35,6 +40,38 @@ const Dashboard = () => {
     localStorage.removeItem("user");
     toast.success("Logged out successfully!");
     navigate("/login");
+  };
+
+  //  Handle delete admin
+  const confirmDelete = (id) => {
+    setDeleteId(id);
+    setShowDeleteDialog(true);
+  };
+
+  //  Confirm delete admin
+  const handleConfirmDelete = async () => {
+    try {
+      await deleteAdmin(deleteId);
+      toast.success("Admin deleted successfully!");
+      getAdmins();
+    } catch (err) {
+      toast.error("Failed to delete admin.");
+    } finally {
+      setDeleteId(null);
+      setShowDeleteDialog(false);
+    }
+  };
+
+  //  Handle edit admin
+  const handleEdit = (admin) => {
+    setEditAdmin(admin);
+    setShowForm(true);
+  };
+
+  //  Close form modal
+  const handleFormClose = () => {
+    setShowForm(false);
+    setEditAdmin(null);
   };
 
   //  Fetch data on page change or search term
@@ -74,17 +111,21 @@ const Dashboard = () => {
       {/* AdminForm Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-white z-50">
-          <AdminForm onClose={() => setShowForm(false)} onAdd={getAdmins} />
+          <AdminForm
+            onClose={handleFormClose}
+            editData={editAdmin}
+            onAdd={getAdmins}
+          />
         </div>
       )}
 
       {/* Admin Table */}
       {loading ? (
         <div className="mt-25 flex justify-center items-center px-4 text-yellow-600">
-        <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-center">
-          Loading admins...
-        </h2>
-      </div>
+          <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-center">
+            Loading admins...
+          </h2>
+        </div>
       ) : admins.length === 0 ? (
         <div className="mt-10 flex flex-col items-center justify-center text-center p-6 bg-yellow-50 rounded shadow-md">
           <h3 className="text-xl font-semibold text-yellow-600 mb-2">
@@ -104,6 +145,7 @@ const Dashboard = () => {
                   <th className="p-3">Email</th>
                   <th className="p-3">Phone Number</th>
                   <th className="p-3 text-pretty md:text-balance">Address</th>
+                  <th className="p-3">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -116,6 +158,22 @@ const Dashboard = () => {
                     <td className="p-3">{admin.email}</td>
                     <td className="p-3">{admin.phone}</td>
                     <td className="p-3">{admin.address}</td>
+                    <td className="p-3 flex items-center gap-3">
+                      <button
+                        onClick={() => handleEdit(admin)}
+                        className="text-blue-600 hover:text-blue-800 cursor-pointer"
+                        title="Edit"
+                      >
+                        <FaEdit />
+                      </button>
+                      <button
+                        onClick={() => confirmDelete(admin._id)}
+                        className="text-red-600 hover:text-red-800 cursor-pointer"
+                        title="Delete"
+                      >
+                        <FaTrash />
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -198,6 +256,18 @@ const Dashboard = () => {
             </div>
           )}
         </>
+      )}
+
+      {/* Delete Confirmation Dialog */}
+      {showDeleteDialog && (
+        <div className="fixed inset-0 bg-opacity-30 z-40 flex justify-center items-center bg-white/30  backdrop-opacity-95">
+          <DeleteConfirmDialog
+            onClose={() => {
+              setShowDeleteDialog(false);
+            }}
+            onConfirm={handleConfirmDelete}
+          />
+        </div>
       )}
     </div>
   );
