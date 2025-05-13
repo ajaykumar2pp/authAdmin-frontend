@@ -260,7 +260,7 @@ const Dashboard = () => {
 
       {/* Delete Confirmation Dialog */}
       {showDeleteDialog && (
-        <div className="fixed inset-0 bg-opacity-30 z-40 flex justify-center items-center bg-white/30  backdrop-opacity-95">
+        <div className="fixed inset-0 bg-opacity-30 z-40 flex justify-center items-center bg-white/30  backdrop-opacity-95 p-4 sm:p-6 mx-auto">
           <DeleteConfirmDialog
             onClose={() => {
               setShowDeleteDialog(false);
