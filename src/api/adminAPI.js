@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API = axios.create({
   baseURL: `${import.meta.env.VITE_API_BACKEND_URL}/api/admins`,  
+  withCredentials: true,
 });
 
 export const postAdmin = (data) => API.post("/", data);

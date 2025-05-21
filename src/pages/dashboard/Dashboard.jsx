@@ -6,7 +6,7 @@ import DeleteConfirmDialog from "../../components/DeleteConfirmDialog";
 
 import SearchBar from "../../components/SearchBar";
 import { toast } from "react-toastify";
-import { FaChevronLeft, FaChevronRight, FaEdit, FaTrash } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight, FaEdit, FaTrash , FaEye } from "react-icons/fa";
 
 const Dashboard = () => {
   const [admins, setAdmins] = useState([]);
@@ -67,6 +67,13 @@ const Dashboard = () => {
     setEditAdmin(admin);
     setShowForm(true);
   };
+
+
+  // Alert message display
+  const messageAlert =(name)=>{
+    alert(`User Name : ${name}`)
+  }
+
 
   //  Close form modal
   const handleFormClose = () => {
@@ -172,6 +179,10 @@ const Dashboard = () => {
                         title="Delete"
                       >
                         <FaTrash />
+                      </button>
+                      <button className="cursor-pointer"
+                      onClick={()=> messageAlert(admin.name)}>
+                        <FaEye />
                       </button>
                     </td>
                   </tr>

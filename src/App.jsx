@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route , Navigate } from "react-router-dom";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import TwoFALogin from "./pages/auth/TwoFALogin"
 import Dashboard from "./pages/dashboard/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
@@ -20,6 +21,15 @@ function App() {
       {/* Default Route */}
       <Route path="/" element={<Navigate to="/register" />} />
 
+       <Route
+        path="/register"
+        element={
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        }
+      />
+
       <Route
         path="/login"
         element={
@@ -28,11 +38,11 @@ function App() {
           </PublicRoute>
         }
       />
-      <Route
-        path="/register"
+        <Route
+        path="/2fa"
         element={
           <PublicRoute>
-            <Register />
+            <TwoFALogin />
           </PublicRoute>
         }
       />
