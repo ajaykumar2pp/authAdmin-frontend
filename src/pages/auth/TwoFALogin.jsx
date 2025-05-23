@@ -2,18 +2,11 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import TextInput from "../../components/TextInput";
 import { tokenSchema } from "../../validations/tokenSchema";
-import { login2FA } from "../../api/authAPI";
+import { verify2FA } from "../../api/authAPI";
 import { toast } from "react-toastify";
 
 const TwoFALogin = () => {
   const navigate = useNavigate();
-  const { state } = useLocation();
-
-  if (!state?.email) {
-    toast.error("No email found. Redirecting...");
-    navigate("/login");
-    return null;
-  }
 
   const formik = useFormik({
     initialValues: {
@@ -21,22 +14,18 @@ const TwoFALogin = () => {
     },
     validationSchema: tokenSchema,
     onSubmit: async ({ token }) => {
+      console.log(token)
       try {
-        const response = await login2FA({
-          email: state.email,
-          password: state.password,
-          token,
-        });
-        toast.success(response.data.message || "Registration successful!");
+        const response = await verify2FA({token});
+        toast.success(response.data.message || "Verify 2FA successful!");
         // console.log("User Respone", response);
-        // Form reset karo
-        resetForm();
 
-        // Navigate to login page
+        // Navigate to dashboard
         navigate("/dashboard");
-      } catch (error) {
-        const msg = err.response?.data?.message || "Invalid token";
-        toast.error(msg);
+      } catch (err) {
+        const errorMessage =
+        err.response?.data?.message || "Something went wrong. Please try again.";
+      toast.error(errorMessage);
       }
     },
   });
@@ -53,9 +42,13 @@ const TwoFALogin = () => {
             name="token"
             type="text"
             icon={""}
+            placeholder="Enter otp"
             formik={formik}
           />
-          <button onClick={handleVerify}>Verify OTP</button>
+          <button 
+          className="w-full text-white font-bold py-2 rounded transition flex items-center justify-center gap-2 bg-yellow-500 hover:bg-yellow-600 cursor-pointer"
+          type="submit"
+          >Verify OTP</button>
         </form>
       </div>
     </div>

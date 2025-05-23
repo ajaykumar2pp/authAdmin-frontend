@@ -25,11 +25,11 @@ const Login = () => {
         const user = response.data.user;
 
         // Save user to localStorage
-        localStorage.setItem("user", JSON.stringify(user));
+        // localStorage.setItem("user", JSON.stringify(user));
         toast.success("Login successful!");
 
         resetForm();
-        navigate("/dashboard");
+        navigate("/qr-code");
       } catch (error) {
         const errorMessage =
           error.response?.data?.message || "Invalid credentials!";

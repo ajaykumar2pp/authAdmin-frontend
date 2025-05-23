@@ -7,5 +7,6 @@ const API = axios.create({
 
 export const registerUser = (data) => API.post("/register", data);
 export const loginUser = (data) => API.post("/login", data);
-export const login2FA = (data) => API.post("/2fa/verify", data);
-export const generate2FA = (data) => API.post("/2fa/generate", data);
+export const generate2FA = (data) => API.get("/2fa/generate", data);
+export const verify2FA = (data) => API.post("/2fa/verify", data);
+export const getUser = () => API.get("/me");
